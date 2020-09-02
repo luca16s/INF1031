@@ -1,28 +1,27 @@
--- Resolução exercício 1
-print("Insira a quantidade de segundos: ")
-local tempoInformado = io.read("*n")
-
 local quantidadeSegundosDia = 24*60*60
 local quantidadeSegundosHora = 60*60
 local quantidadeSegundosMinuto = 60
 
-local dias = tempoInformado // quantidadeSegundosDia
-local horas = (tempoInformado % quantidadeSegundosDia) // quantidadeSegundosHora
-local minutos = (tempoInformado % quantidadeSegundosHora) // quantidadeSegundosMinuto
-local segundos = tempoInformado % quantidadeSegundosMinuto
+print("Por favor, insira a quantidade de segundos: ")
+local segundosInformados = io.read("*n")
+print()
 
+local dias = segundosInformados // quantidadeSegundosDia
+local horas = (segundosInformados % quantidadeSegundosDia) // quantidadeSegundosHora
+local minutos = (segundosInformados % quantidadeSegundosHora) // quantidadeSegundosMinuto
+local segundos = segundosInformados % quantidadeSegundosMinuto
+
+-- Resolução exercício 1
 print(dias)
 print(horas)
 print(minutos)
 print(segundos)
+print()
 
 -- Resolução exercício 2
-
 print(string.format("%s dias, %s horas, %s minutos e %s segundos", dias, horas, minutos, segundos))
-
-
+print()
 -- Resolução exercício 3
-
 function InsereVirgula(mensagem)
   if mensagem ~= nil and string.len(mensagem) > 1 then
     return mensagem .. ", "
@@ -69,4 +68,5 @@ if segundos > 0 then
   end
 end
 
-print(mensagem .. ".");
+print(mensagem .. ".")
+print()
