@@ -33,7 +33,6 @@ end
 local mensagem = ""
 
 if dias > 0 then
-  mensagem = InsereVirgula(mensagem)
   if dias == 1 then
     mensagem = string.format("%s dia", dias)
   else
@@ -62,11 +61,11 @@ end
 if segundos > 0 then
   mensagem = InsereVirgula(mensagem)
   if segundos == 1 then
-    mensagem = mensagem .. string.format("%s segundo", segundos)
+    mensagem = mensagem .. string.format("e %s segundo", segundos)
   else
-    mensagem = mensagem .. string.format("%s segundos", segundos)
+    mensagem = mensagem .. string.format("e %s segundos", segundos)
   end
 end
 
-print(mensagem .. ".")
+print(mensagem)
 print()
