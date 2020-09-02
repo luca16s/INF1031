@@ -1,6 +1,6 @@
 -- Resolução exercício 1
 print("Insira a quantidade de segundos: ")
-local tempoInformado = io.read("*n")
+local tempoInformado = 117100--io.read("*n")
 
 local quantidadeSegundosDia = 24*60*60
 local quantidadeSegundosHora = 60*60
@@ -8,7 +8,7 @@ local quantidadeSegundosMinuto = 60
 
 local dias = tempoInformado // quantidadeSegundosDia
 local horas = (tempoInformado % quantidadeSegundosDia) // quantidadeSegundosHora
-local minutos = ((tempoInformado % quantidadeSegundosHora)) // quantidadeSegundosMinuto
+local minutos = (tempoInformado % quantidadeSegundosHora) // quantidadeSegundosMinuto
 local segundos = tempoInformado % quantidadeSegundosMinuto
 
 print(dias)
@@ -18,10 +18,9 @@ print(segundos)
 
 -- Resolução exercício 2
 
-print(string.format("%s dias, %s horas, %s minutos e %s segundos", math.floor(dias), horas, minutos, segundos))
+print(string.format("%s dias, %s horas, %s minutos e %s segundos", dias, horas, minutos, segundos))
 
 -- Resolução exercício 3
-
 local mensagem
 
 if dias > 0 then
