@@ -50,10 +50,10 @@ end
 
 if segundos > 0 then
   if segundos == 1 then
-    mensagem = mensagem .. string.format(", %s segundo.", segundos)
+    mensagem = mensagem .. string.format(", %s segundo", segundos)
   else
-    mensagem = mensagem .. string.format(", %s segundos.", segundos)
+    mensagem = mensagem .. string.format(", %s segundos", segundos)
   end
 end
 
-print(mensagem);
+print(mensagem .. ".");
