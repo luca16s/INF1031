@@ -11,8 +11,8 @@ function SalarioAtual(salarioBase, anosCompletados)
 end
 
 print("Insira o salário base do funcionário: ")
-local salarioBase = 100--io.read("*n")
+local salarioBase = io.read("*n")
 print("Insira a quantidade de anos completos do funcionário na empresa: ")
-local quantidadeAnosTrabalhados = 5--io.read("*n")
+local quantidadeAnosTrabalhados = io.read("*n")
 local salarioCorrespondente = SalarioAtual(salarioBase, quantidadeAnosTrabalhados)
 print(string.format("O salário correspondente após %s anos será de R$ %.2f", quantidadeAnosTrabalhados, salarioCorrespondente))
