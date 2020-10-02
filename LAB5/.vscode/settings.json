@@ -1,0 +1,6 @@
+{
+    "Lua.diagnostics.globals": [
+        "operando1",
+        "operando2"
+    ]
+}

@@ -26,7 +26,7 @@ function ValidarTentativa(valorEsperado)
         return ProcessarTentativas(oportunidadesRestantes - 1, valorEsperado)
       end
     else
-      print ("“acabaram suas tentativas")
+      print ("acabaram suas tentativas")
       return 0
     end
   end

@@ -20,3 +20,17 @@ print("Insira a quantidade de segundos: ")
 local quantidadeSegundos = io.read("*n")
 
 print(string.format("%s dias, %s horas, %s minutos e %s segundos", ConverteSegundos(quantidadeSegundos)))
+
+
+function limita_tentativas(chute0,tent)
+    tent = 20
+    chute0 = io.read ("*n")
+      if tent < 0 then
+        return  false
+     if chute0 < valor_pc then
+        return tent - 1
+      elseif chute0 > valor_p then
+        return tent -1
+        end
+      end
+    end
