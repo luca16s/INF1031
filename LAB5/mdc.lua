@@ -8,19 +8,16 @@ function mdc(n1, n2)
       local div = n2%resto
       n2 = resto
       if div == 0 then
-        return n2    
+        return n2
       end
       resto = div
   end
-end  
-  
+end
 
 --print ("entre com dois numeros: ")
 --a, b = io.read ("*n", "*n")
 --print('----------------------------------')
 --print(mdc(a, b))
-
-posicoesCalculadas = {}
 
 for i=4, 20 do
   for j=4, 20 do
