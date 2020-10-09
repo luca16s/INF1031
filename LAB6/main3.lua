@@ -1,5 +1,4 @@
 local discs = {}
-discoSelecionado = nil
 discoAnterior = nil
 
 local function generatediscs (w, h)
@@ -67,18 +66,4 @@ function love.mousepressed(x, y)
     discoAnterior = copiaItemTabela(discoSelecionado)
     discoSelecionado.color = {255, 0, 0}
   end
-end
-
-function love.keypressed (key)  
-  if key == "up" then
-    discoSelecionado.y = discoSelecionado.y - 1
-  elseif key == "down" then
-    discoSelecionado.y = discoSelecionado.y + 1
-  elseif key == "left" then
-    discoSelecionado.x = discoSelecionado.x - 1
-  elseif key == "right" then
-    discoSelecionado.x =  discoSelecionado.x + 1
-  end
-  discoAnterior.x = discoSelecionado.x
-  discoAnterior.y = discoSelecionado.y
 end
