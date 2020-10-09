@@ -1,5 +1,5 @@
 local discs = {}
-discoSelecionado = nil
+itemSelecionado = nil
 discoAnterior = nil
 
 local function generatediscs (w, h)
@@ -22,20 +22,17 @@ local function copiaItemTabela(t)
 end
 
 local function buscaDisco(posicaoEixoX, posicaoEixoY)
+  local table = {}
   for i = #discs, 1, -1 do
     if math.sqrt((posicaoEixoX - discs[i].x)^2 + (posicaoEixoY - discs[i].y)^2) <= discs[i].r then
-      return discs[i]
+      t = { posicao = i, disco = discs[i] }
+      return t
     end
   end
 end
 
-local function corrigeCorDisco(disco)
-  for i = #discs, 1, -1 do
-    if disco.x == discs[i].x and disco.y == discs[i].y  and disco.r == discs[i].r then
-      discs[i].color = disco.color
-      return
-    end
-  end
+local function corrigeCorDisco(discoAnterior)
+  discs[discoAnterior.posicao].color = discoAnterior.disco.color
 end
 
 function love.load ()
@@ -56,29 +53,33 @@ function love.draw ()
 end
 
 function love.mousepressed(x, y)
-  discoSelecionado = buscaDisco(x, y)
+  itemSelecionado = buscaDisco(x, y)
   
-  if discoSelecionado ~= nil then
-    
+  if itemSelecionado == nil then
+    return
+  end
+  
     if discoAnterior ~= nil then
       corrigeCorDisco(discoAnterior)
     end
     
-    discoAnterior = copiaItemTabela(discoSelecionado)
-    discoSelecionado.color = {255, 0, 0}
-  end
+    discoAnterior = { posicao = itemSelecionado.posicao, disco = copiaItemTabela(itemSelecionado.disco) }
+    
+    itemSelecionado.disco.color = {255, 0, 0}
 end
 
-function love.keypressed (key)  
-  if key == "up" then
-    discoSelecionado.y = discoSelecionado.y - 1
-  elseif key == "down" then
-    discoSelecionado.y = discoSelecionado.y + 1
-  elseif key == "left" then
-    discoSelecionado.x = discoSelecionado.x - 1
-  elseif key == "right" then
-    discoSelecionado.x =  discoSelecionado.x + 1
+function love.keypressed (key)
+  if itemSelecionado == nil then
+    return
   end
-  discoAnterior.x = discoSelecionado.x
-  discoAnterior.y = discoSelecionado.y
+  
+  if key == "up" then
+    itemSelecionado.disco.y = itemSelecionado.disco.y - 1
+  elseif key == "down" then
+    itemSelecionado.disco.y = itemSelecionado.disco.y + 1
+  elseif key == "left" then
+    itemSelecionado.disco.x = itemSelecionado.disco.x - 1
+  elseif key == "right" then
+    itemSelecionado.disco.x =  itemSelecionado.disco.x + 1
+  end
 end
