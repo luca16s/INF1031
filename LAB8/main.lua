@@ -1,5 +1,5 @@
 local easytext = require "easytext"
-local contapals = require "contapals"
+local contaPalavras = require "contapals"
 local texto = nil
 local textos = {}
 
@@ -12,8 +12,12 @@ function love.load()
   local w, h = love.graphics.getDimensions()
   local x = w/2
   local y = h/2
-
-  textos[1] = easytext.new("game", 32, contapals.ContarPalavrasRepetidas(texto))
+  
+  local tabelaOrdenada = contaPalavras.contarPalavrasRepetidas(texto)
+  
+  for i=1, 10 do
+    textos[i] = easytext.new("game", 32, tabelaOrdenada[i])
+  end
 end
 
 function love.update()
@@ -22,11 +26,13 @@ end
 local function mostrapals ()
     local w, h = love.graphics.getDimensions()
     local x = w/2
-    local y = h/2
-
-    easytext.draw(textos[1], x, y, 'c', "light_green", "light_green")
-    local tx, ty = easytext.getDimensions(textos[1])
-    y = y + ty
+    local y = h/4
+    
+    for i=1, 10 do
+      easytext.draw(textos[i], x, y, 'c', "light_green", "light_green")
+      local tx, ty = easytext.getDimensions(textos[i])
+      y = y + ty
+    end
   end
 
 function love.draw()
