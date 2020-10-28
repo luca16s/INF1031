@@ -1,0 +1,11 @@
+{
+    "Lua.diagnostics.globals": [
+        "data",
+        "file",
+        "love",
+        "mostrapals"
+    ],
+    "Lua.diagnostics.disable": [
+        "unused-function"
+    ]
+}
