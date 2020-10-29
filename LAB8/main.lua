@@ -2,6 +2,8 @@ local easytext = require "easytext"
 local contaPalavras = require "contapals"
 local texto = nil
 local textos = {}
+local tabelaOrdenada = {}
+local tabelaRepetidos = {}
 
 function love.load()
   local file = love.filesystem.newFile("texto.txt")
@@ -13,10 +15,10 @@ function love.load()
   local x = w/2
   local y = h/2
   
-  local tabelaOrdenada = contaPalavras.contarPalavrasRepetidas(texto)
+  tabelaOrdenada = contaPalavras.contarPalavrasRepetidas(texto)
   
   for i=1, 10 do
-    textos[i] = easytext.new("game", 32, tabelaOrdenada[i])
+    textos[i] = easytext.new("game", 32, tabelaOrdenada[i].palavra)
   end
 end
 
@@ -26,15 +28,29 @@ end
 local function mostrapals ()
     local w, h = love.graphics.getDimensions()
     local x = w/2
-    local y = h/4
+    local y = h/6
     
     for i=1, 10 do
-      easytext.draw(textos[i], x, y, 'c', "light_green", "light_green")
+      local palavra = {}
+      palavra[i] = { palavra = tabelaOrdenada[i].palavra, quantidade = tabelaOrdenada[i].quantidade }
+      
+      easytext.draw(textos[i], x, y, 'c', "light_green")
       local tx, ty = easytext.getDimensions(textos[i])
-      y = y + ty
+      tabelaRepetidos[i] = { texto = palavra, x = x, y = y, comprimento = tx, largura = ty }
+      y = y + ty + 10
     end
   end
 
 function love.draw()
     mostrapals()
+end
+
+function love.mousepressed(x, y, button)
+   if button == 1 then
+     local texto = contaPalavras.mostraQuantidadeEncontrada(x, y, tabelaRepetidos)
+     
+    if texto ~= nil then
+      love.window.showMessageBox("Repetição de palavras", texto, "info")
+    end
+   end
 end

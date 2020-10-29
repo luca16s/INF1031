@@ -120,7 +120,7 @@ local cores = {
   end
 
   text.getDimensions = function (meutexto)
-    local dimx, dimy =  meutexto.textoLove:getDimensions()
+    local dimx, dimy = meutexto.textoLove:getDimensions()
     return dimx, dimy
   end
 
