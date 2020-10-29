@@ -4,6 +4,7 @@ local texto = nil
 local textos = {}
 local tabelaOrdenada = {}
 local tabelaRepetidos = {}
+local cor = {}
 
 function love.load()
   local file = love.filesystem.newFile("texto.txt")
@@ -17,8 +18,10 @@ function love.load()
   
   tabelaOrdenada = contaPalavras.contarPalavrasRepetidas(texto)
   
+  math.randomseed(os.time())
   for i=1, 10 do
     textos[i] = easytext.new("game", 32, tabelaOrdenada[i].palavra)
+    cor[i] = {cor1 = 0.9*math.random(), cor2 = 0.9*math.random(), cor3 = 0.9*math.random()}
   end
 end
 
@@ -32,9 +35,9 @@ local function mostrapals ()
     
     for i=1, 10 do
       local palavra = {}
-      palavra[i] = { palavra = tabelaOrdenada[i].palavra, quantidade = tabelaOrdenada[i].quantidade }
       
-      easytext.draw(textos[i], x, y, 'c', "light_green")
+      palavra[i] = { palavra = tabelaOrdenada[i].palavra, quantidade = tabelaOrdenada[i].quantidade }
+      easytext.draw(textos[i], x, y, 'c', cor[i])
       local tx, ty = easytext.getDimensions(textos[i])
       tabelaRepetidos[i] = { texto = palavra, x = x, y = y, comprimento = tx, largura = ty }
       y = y + ty + 10

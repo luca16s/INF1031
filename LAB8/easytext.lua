@@ -104,7 +104,12 @@ local cores = {
 
   text.draw = function (meutexto, x, y, ancora, corFonte, corRetangulo)
     local dx, dy = meutexto.textoLove:getDimensions()
-    text.setFillColor(meutexto, corFonte)
+    
+    if corFonte == "string" then
+      text.setFillColor(meutexto, corFonte)
+    else
+      text.setFillColor(meutexto, corFonte.cor1, corFonte.cor2, corFonte.cor3)
+    end
     
     ancora = ancora or "c"
     assert (ancoras[ancora], "ancora inexistente")
