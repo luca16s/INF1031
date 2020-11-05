@@ -24,11 +24,17 @@ end
 
 function love.draw()
   love.graphics.setBackgroundColor (1 ,1 ,1) 
-  love.graphics.setColor (coresDisco.corDiscoPadrao) 
+  
+  if discoSelecionado == true then
+    love.graphics.setColor (coresDisco.corDiscoSelecionado)
+  else
+    love.graphics.setColor (coresDisco.corDiscoPadrao)
+  end
+  
   love.graphics.circle("fill", obj.x, obj.y, obj.r)
 end
 
-function love.update (dt)
+function love.update(dt)
 
   if discoSelecionado == false then
     -- anda
@@ -78,7 +84,7 @@ function love.quit()
 end
 
 function love.mousepressed(posicaoEixoX, posicaoEixoY, button)
-  if math.sqrt((posicaoEixoX - obj.x)^2 + (posicaoEixoY - obj.y)^2) <= obj.r then
+  if math.sqrt((posicaoEixoX - obj.x)^2 + (posicaoEixoY - obj.y)^2) <= obj.r and discoSelecionado == false then
     discoSelecionado = true
   else
     discoSelecionado = false
