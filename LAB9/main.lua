@@ -6,7 +6,6 @@ local coresDisco = {
 }
   
 local audio
-local discoSelecionado = false
 
 local function movimentaDisco(w, h, dt, disco)
     disco.x = disco.x + disco.vx*dt 
@@ -41,20 +40,20 @@ function love.load()
     local theta = math.random() * 2 * math.pi
     local velocidadeX = velocidade * math.cos(theta) -- vel vx inicial 
     local velocidadeY = velocidade * math.sin(theta) -- vel vy inicial
-    table.insert(discos, {r = raio, x = lx, y = ly, v = velocidade, vx = velocidadeX, vy = velocidadeY})
+    table.insert(discos, {r = raio, x = lx, y = ly, v = velocidade, vx = velocidadeX, vy = velocidadeY, selecionado = false })
   end
   audio = love.audio.newSource("WoodWhack.wav","static")
 end
 
 function love.draw()
   love.graphics.setBackgroundColor (1, 1, 1)
-  if discoSelecionado == true then
-    love.graphics.setColor(coresDisco.corDiscoSelecionado)
-  else
-    love.graphics.setColor(coresDisco.corDiscoPadrao)
-  end
   
   for i = 1, #discos do
+    if discos[i].selecionado == true then
+      love.graphics.setColor(coresDisco.corDiscoSelecionado)
+    else
+      love.graphics.setColor(coresDisco.corDiscoPadrao)
+    end
     love.graphics.circle("fill", discos[i].x, discos[i].y, discos[i].r)
   end
 end
@@ -62,20 +61,21 @@ end
 function love.update(dt)
   local w, h = love.graphics.getDimensions()
   for i = 1, #discos do
-    if love.keyboard.isDown("space") == true and discoSelecionado == false then    
+    if love.keyboard.isDown("space") == true and discos[i].selecionado == false then    
       movimentaDisco(w, h, 0, discos[i])
       audio:stop()
     else
-      if discoSelecionado == false then
+      if discos[i].selecionado == false then
         movimentaDisco(w, h, dt, discos[i])
+        
       elseif love.keyboard.isDown("left") == true then
-        discos.x = discos[i].x + discos[i].vx*-1*(dt)    
+        discos[i].x = discos[i].x + discos[i].vx*-1*(dt)    
       elseif love.keyboard.isDown("up") == true then
-        discos.y = discos[i].y + discos[i].vy*(dt)    
+        discos[i].y = discos[i].y + discos[i].vy*(dt)    
       elseif love.keyboard.isDown("right") == true then
-        discos.x = discos[i].x + discos[i].vx*dt    
+        discos[i].x = discos[i].x + discos[i].vx*dt    
       elseif love.keyboard.isDown("down") == true then
-        discos.y = discos[i].y + discos[i].vy*-1*(dt)
+        discos[i].y = discos[i].y + discos[i].vy*-1*(dt)
       end
     end
   end
@@ -87,12 +87,11 @@ end
 
 function love.mousepressed(posicaoEixoX, posicaoEixoY)
   for i = #discos, 1, -1 do
-    if math.sqrt((posicaoEixoX - discos[i].x)^2 + (posicaoEixoY - discos[i].y)^2) <= discos[i].r and discoSelecionado == false then
-      discoSelecionado = true
+    if math.sqrt((posicaoEixoX - discos[i].x)^2 + (posicaoEixoY - discos[i].y)^2) <= discos[i].r and discos[i].selecionado == false then
+      discos[i].selecionado = true
       break
     else
-      discoSelecionado = false
-      break
+      discos[i].selecionado = false
     end
   end
 end
