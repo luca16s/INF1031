@@ -42,16 +42,16 @@ function love.update(dt)
     obj.y = obj.y + obj.vy*dt
     
   elseif love.keyboard.isDown("left") == true then
-    obj.x = obj.x + -1*(obj.vx*dt)
+    obj.x = obj.x + obj.vx*-1*(dt)
     
   elseif love.keyboard.isDown("up") == true then
-    obj.y = obj.y + obj.vy*dt
+    obj.y = obj.y + obj.vy*(dt)
     
   elseif love.keyboard.isDown("right") == true then
     obj.x = obj.x + obj.vx*dt
     
   elseif love.keyboard.isDown("down") == true then
-    obj.y = obj.y + -1*(obj.vy*dt)
+    obj.y = obj.y + obj.vy*-1*(dt)
   end
 
   -- trata colisao
