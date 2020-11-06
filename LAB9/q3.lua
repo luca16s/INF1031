@@ -35,8 +35,8 @@ end
 function love.load()
   local w, h = love.graphics.getDimensions() 
   math.randomseed(os.time())
-  obj.x = math.random(w-obj.r)
-  obj.y = math.random(h-obj.r)
+  obj.x = math.random(w)
+  obj.y = math.random(h)
   local theta = math.random() * 2 * math.pi
   obj.vx = obj.v * math.cos(theta) -- vel vx inicial 
   obj.vy = obj.v * math.sin(theta) -- vel vy inicial
