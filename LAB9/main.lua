@@ -8,7 +8,7 @@ local coresDisco = {
 local audio
 local discoSelecionado = false
 
-function movimentaDisco(w, h, dt, disco)
+local function movimentaDisco(w, h, dt, disco)
     disco.x = disco.x + disco.vx*dt 
     disco.y = disco.y + disco.vy*dt
     
@@ -33,8 +33,9 @@ function love.load()
   local w, h = love.graphics.getDimensions()  
   local raio = 40
   local velocidade = 200
-  for i = 1, 20 do
+  
     math.randomseed(os.time())
+  for i = 0, 20 do
     local lx = math.random(w)
     local ly = math.random(h)    
     local theta = math.random() * 2 * math.pi
@@ -47,12 +48,13 @@ end
 
 function love.draw()
   love.graphics.setBackgroundColor (1, 1, 1)
+  if discoSelecionado == true then
+    love.graphics.setColor(coresDisco.corDiscoSelecionado)
+  else
+    love.graphics.setColor(coresDisco.corDiscoPadrao)
+  end
+  
   for i = 1, #discos do
-    if discoSelecionado == true then
-      love.graphics.setColor(coresDisco.corDiscoSelecionado)
-    else
-      love.graphics.setColor(coresDisco.corDiscoPadrao)
-    end
     love.graphics.circle("fill", discos[i].x, discos[i].y, discos[i].r)
   end
 end
@@ -62,6 +64,7 @@ function love.update(dt)
   for i = 1, #discos do
     if love.keyboard.isDown("space") == true and discoSelecionado == false then    
       movimentaDisco(w, h, 0, discos[i])
+      audio:stop()
     else
       if discoSelecionado == false then
         movimentaDisco(w, h, dt, discos[i])
