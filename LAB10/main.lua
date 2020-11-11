@@ -1,4 +1,4 @@
-local host = "127.0.0.1:1883"
+local host = "127.0.0.1"
 local canal = "luca16s"
 local mqtt = require "mqttLoveLibrary"
 local usuario = 'luca16s'
@@ -7,7 +7,7 @@ local bolas = {}
 local pontos = 0
 local N = 100
 local R = 50
-local S = 0   -- semente fixa
+local S = 0
 local cores = {{0.4,1,0.4},
                {1,0.7,0.4},
                {0.6,0.6,0.6},
@@ -17,12 +17,10 @@ local cores = {{0.4,1,0.4},
                {0,0.2,0.4}}
 
 local function mensagemRecebida (mensagem)
-  love.window.showMessageBox(mensagem, mensagem, "error")
-  local shouldRemove = string.find(mensagem, 'remove')
-  love.window.showMessageBox(shouldRemove, shouldRemove, "error")
-  local x, y = string.find(mensagem, '%d')
+  local x = string.gsub(string.match(mensagem, "x:%d+"), "x:", "")
+  local y = string.gsub(string.match(mensagem, "y:%d+"), "y:", "")
   
-  if(mensagem == string.find(mensagem, 'remove')) then
+  if string.match(mensagem, "remove") ~= nil then
     for i = #bolas, 1, -1 do
       if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
         table.remove(bolas, i)
@@ -65,6 +63,6 @@ function love.draw ()
 end
 
 function love.mousepressed (x, y, bt)
-  mqtt.sendMessage('remove=true;position:' .. x .. ';' .. y, canal)
+  mqtt.sendMessage('<remove>;x:' .. x .. 'y:' .. y, canal)
 end
 
