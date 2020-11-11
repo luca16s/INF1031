@@ -16,11 +16,23 @@ local cores = {{0.4,1,0.4},
                {0.8, 0.2, 0.2}, 
                {0,0.2,0.4}}
 
+local function decodificaCoordenadas(mensagemRecebida)
+  local coordenadaDecodificada = {}
+  local contador = 0
+
+  string.gsub(mensagemRecebida,"<%d+>", function(coordenada)
+      coordenadaDecodificada[contador] = string.gsub(coordenada, "%p+", "")
+      contador = contador + 1
+  end)
+
+return coordenadaDecodificada[0], coordenadaDecodificada[1]
+
+end
+
 local function mensagemRecebida (mensagem)
-  local x = string.gsub(string.match(mensagem, "x:%d+"), "x:", "")
-  local y = string.gsub(string.match(mensagem, "y:%d+"), "y:", "")
+  local x, y = decodificaCoordenadas(mensagem)
   
-  if string.match(mensagem, "remove") ~= nil then
+  if string.match(mensagem, "<SEL>") ~= nil then
     for i = #bolas, 1, -1 do
       if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
         table.remove(bolas, i)
@@ -63,6 +75,6 @@ function love.draw ()
 end
 
 function love.mousepressed (x, y, bt)
-  mqtt.sendMessage('<remove>;x:' .. x .. 'y:' .. y, canal)
+  mqtt.sendMessage('<SEL><' .. x .. '><' .. y .. '><' .. usuario .. '>', canal)
 end
 
