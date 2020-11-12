@@ -1,8 +1,8 @@
 local mqtt = require "mqttLoveLibrary"
 local decodificador = require "decodificador"
-local host = "127.0.0.1"
-local canal = "luca16s"
+local constantes = require "constantes"
 local usuario = 'luca16s'
+local text = ''
 
 local bolas = {}
 local pontos = 0
@@ -14,13 +14,13 @@ local cores = {{0.4,1,0.4},
                {0.6,0.6,0.6},
                {1,0.4,0.4},
                {0.3, 0, 0.6},
-               {0.8, 0.2, 0.2}, 
+               {0.8, 0.2, 0.2},
                {0,0.2,0.4}}
 
 local function mensagemRecebida (mensagem)
   local x, y = decodificador.decodificaCoordenadas(mensagem)
-  
-  if string.match(mensagem, "<SEL>") ~= nil then
+
+  if string.match(mensagem, "<SEL>") == "<SEL>" then
     for i = #bolas, 1, -1 do
       if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
         table.remove(bolas, i)
@@ -32,7 +32,6 @@ end
 
 function love.load ()
   local w, h = love.graphics.getDimensions()
-  -- generate bolas
   math.randomseed(S)
   for i = 1, N do
     local r = math.random(R/10,R)
@@ -41,15 +40,14 @@ function love.load ()
     local cor = cores[math.random(1, #cores)]
     table.insert(bolas, {r = r, x = x, y = y, cor = cor})
   end
-  -- init graphics
   love.graphics.setBackgroundColor(1,1,1)
-  local font = love.graphics.newFont("Arial.ttf",24)
+  local font = love.graphics.newFont(constantes.fonte,24)
   text = love.graphics.newText(font,"")
-  mqtt.start(host, usuario, canal,  mensagemRecebida)
+  mqtt.start(constantes.host, usuario, constantes.canal,  mensagemRecebida)
 end
 
 function love.update(dt)
-  mqtt.checkMessages() -- tem que constar no love.update!!!
+  mqtt.checkMessages()
 end
 
 function love.draw ()
@@ -57,12 +55,13 @@ function love.draw ()
     love.graphics.setColor(bolas[i].cor[1],bolas[i].cor[2],bolas[i].cor[3])
     love.graphics.circle("fill",bolas[i].x,bolas[i].y,bolas[i].r)
   end
-  text:set(string.format("Pontos: %.1f",pontos))
+  
+  text:set(string.format(constantes.totalPontos, pontos))
   love.graphics.setColor(0,0,0)
   love.graphics.draw(text,0,0)
 end
 
 function love.mousepressed (x, y, bt)
-  mqtt.sendMessage(string.format('<SEL><%i><%i><%s>', x, y, usuario), canal)
+  mqtt.sendMessage(string.format(constantes.mensagem, x, y, usuario), constantes.canal)
 end
 
