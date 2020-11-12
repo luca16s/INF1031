@@ -1,9 +1,9 @@
-constantes = {}
+Constantes = {}
 
-constantes.mensagem = '<SEL><%i><%i><%s>'
-constantes.fonte = "Arial.ttf"
-constantes.totalPontos = "Pontos: %.1f"
-constantes.canal = "ESTOURA_DISCOS"
-constantes.host = "127.0.0.1"
+Constantes.mensagem = '<SEL><%i><%i><%s>'
+Constantes.fonte = "Arial.ttf"
+Constantes.totalPontos = "Pontos: %.1f"
+Constantes.canal = "ESTOURA_DISCOS"
+Constantes.host = "127.0.0.1"
 
-return constantes
+return Constantes

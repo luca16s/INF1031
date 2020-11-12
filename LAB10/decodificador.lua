@@ -1,6 +1,6 @@
-decodificador = {}
+Decodificador = {}
 
-function decodificador.decodificaCoordenadas(mensagemRecebida)
+function Decodificador.decodificaCoordenadas(mensagemRecebida)
     local coordenadaDecodificada = {}
     local contador = 0
   
@@ -12,4 +12,4 @@ function decodificador.decodificaCoordenadas(mensagemRecebida)
   return coordenadaDecodificada[0], coordenadaDecodificada[1]
 end
 
-return decodificador
+return Decodificador
