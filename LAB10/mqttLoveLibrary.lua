@@ -1,12 +1,9 @@
-mqttLove = require('mqtt')
-
+MqttLove = require('mqtt')
 local PORT = 1883
-
 local mqttClient
-local defaultTopic 
+local defaultTopic
 
 MQTT = {}
-
 
 --[[
 	function to start the mqttClient. It connects to the broker and subscribes to a predefined channel.
@@ -15,21 +12,25 @@ MQTT = {}
 					  If nil, function stored  in 'messageReceived' will be called
 ]]
 function MQTT.start(host, id, listchannel, callbackFunction)
-  callback = callbackFunction or messageReceived
+  local callback = callbackFunction or messageReceived
   defaultTopic = id .. 'node'
-  listchannel = listchannel or id..'love'
+  listchannel = listchannel or id ..'love'
   mqttClient = mqttLove.client.create(host, PORT, function (topic , message)
 		print("received message " .. message .. " from topic " .. topic)
 		callback(message)
-	end) 
-  connectErrorMessage = mqttClient:connect(id..'love') 
+	end)
+  local connectErrorMessage = mqttClient:connect(id.. 'love')
   if(connectErrorMessage) then
-    print("Error connecting! "..connectErrorMessage)
+    print("Error connecting! " .. connectErrorMessage)
   end
   mqttClient:subscribe({listchannel})
   print("connecting to " .. listchannel)
 end
 
+--[[
+	function to switch mqtt channel.
+	channel: channel to be changed
+]]
 function MQTT.changeChannel(channelName)
 	print("Switching to " .. channelName)
 	mqttClient:subscribe({channelName})
@@ -40,19 +41,19 @@ end
 	message: message to be sent
 	topic: optional, channel to send the message. If nil the message will be sent to a default channel
 ]]
-function MQTT.sendMessage(message,topic)
+function MQTT.sendMessage(message, topic)
   topic = topic or defaultTopic -- default topic for publishing
   mqttClient:publish(topic,message)
-  print ("sending message ".. message .. " to topic " .. topic)
+  print ("sending message " .. message .. " to topic " .. topic)
 end
 
 --[[
 	function to check if messages were received in the subscribed channels
 ]]
 function MQTT.checkMessages()
-	errorMessage = mqttClient:handler()
+	local errorMessage = mqttClient:handler()
 	if(errorMessage) then
-		print("Error checking for messages! "..errorMessage)
+		print("Error checking for messages! " .. errorMessage)
 	end
 end
 
