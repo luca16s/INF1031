@@ -15,7 +15,7 @@ function MQTT.start(host, id, listchannel, callbackFunction)
   local callback = callbackFunction or messageReceived
   defaultTopic = id .. 'node'
   listchannel = listchannel or id ..'love'
-  mqttClient = mqttLove.client.create(host, PORT, function (topic , message)
+  mqttClient = MqttLove.client.create(host, PORT, function (topic , message)
 		print("received message " .. message .. " from topic " .. topic)
 		callback(message)
 	end)
