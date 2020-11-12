@@ -1,6 +1,7 @@
+local mqtt = require "mqttLoveLibrary"
+local decodificador = require "decodificador"
 local host = "127.0.0.1"
 local canal = "luca16s"
-local mqtt = require "mqttLoveLibrary"
 local usuario = 'luca16s'
 
 local bolas = {}
@@ -16,21 +17,8 @@ local cores = {{0.4,1,0.4},
                {0.8, 0.2, 0.2}, 
                {0,0.2,0.4}}
 
-local function decodificaCoordenadas(mensagemRecebida)
-  local coordenadaDecodificada = {}
-  local contador = 0
-
-  string.gsub(mensagemRecebida,"<%d+>", function(coordenada)
-      coordenadaDecodificada[contador] = string.gsub(coordenada, "%p+", "")
-      contador = contador + 1
-  end)
-
-return coordenadaDecodificada[0], coordenadaDecodificada[1]
-
-end
-
 local function mensagemRecebida (mensagem)
-  local x, y = decodificaCoordenadas(mensagem)
+  local x, y = decodificador.decodificaCoordenadas(mensagem)
   
   if string.match(mensagem, "<SEL>") ~= nil then
     for i = #bolas, 1, -1 do
