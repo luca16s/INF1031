@@ -2,7 +2,7 @@ Constantes = {}
 
 Constantes.mensagem = '<SEL><%i><%i><%s>'
 Constantes.fonte = "Arial.ttf"
-Constantes.totalPontos = "Pontos: %.1f"
+Constantes.totalPontos = "Pontos %s: %.1f"
 Constantes.canalLobby = "ESTOURA_DISCOS_LOBBY"
 Constantes.canalJogo = "ESTOURA_DISCOS_JOGO"
 Constantes.canalPontuacao = "ESTOURA_DISCOS_PONTUACAO"

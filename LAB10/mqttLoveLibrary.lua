@@ -19,10 +19,11 @@ function MQTT.start(host, id, listchannel, callbackFunction)
 		print("received message " .. message .. " from topic " .. topic)
 		callback(message)
 	end)
-  local connectErrorMessage = mqttClient:connect(id.. 'love')
+  local connectErrorMessage = mqttClient:connect(id .. 'love')
   if(connectErrorMessage) then
     print("Error connecting! " .. connectErrorMessage)
   end
+  
   mqttClient:subscribe({listchannel})
   print("connecting to " .. listchannel)
 end

@@ -17,18 +17,35 @@ local cores = {{0.4,1,0.4},
                {0.8, 0.2, 0.2},
                {0,0.2,0.4}}
 
-local function trataMensagemRecebida(mensagem)
-  love.window.showMessageBox("Teste", mensagem)
-  local x, y = decodificador.decodificaCoordenadas(mensagem)
-
+local function removeDiscos(mensagem)
+  local x, y = decodificador.decodificarCoordenadas(mensagem)
   if string.match(mensagem, "<SEL>") == "<SEL>" then
     for i = #bolas, 1, -1 do
       if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
-        mqttLove.sendMessage(string.format("<%f>", pontos + R / bolas[i].r), constantes.canalPontuacao)
+        mqttLove.changeChannel(constantes.canalPontuacao)
+        mqttLove.sendMessage(string.format("<PONTO><%s><%f>", usuario, (pontos + R / bolas[i].r)), constantes.canalPontuacao)
         table.remove(bolas, i)
         break
       end
     end
+  end
+end
+
+local function contabilizaPontos(mensagem)
+  love.window.showMessageBox("Teste", mensagem)
+  local jogador, pontuacao = Decodificador.decodificarPontuacao(mensagem)
+  love.window.showMessageBox("Teste", jogador)
+  love.window.showMessageBox("Teste", pontuacao)
+  return pontuacao
+end
+
+local function trataMensagemRecebida(mensagem)
+  if decodificador.buscaPalavraChaveMensagem(mensagem) == '<SEL>' then
+    removeDiscos(mensagem)
+  elseif decodificador.buscaPalavraChaveMensagem(mensagem) == '<NOVOJOG>' then
+
+  elseif decodificador.buscaPalavraChaveMensagem(mensagem) == '<PONTO>' then
+    pontos = contabilizaPontos(string.sub(mensagem, string.len('<PONTO>') + 1))
   end
 end
 
@@ -58,7 +75,7 @@ function love.draw()
     love.graphics.circle("fill", bolas[i].x, bolas[i].y, bolas[i].r)
   end
 
-  text:set(string.format(constantes.totalPontos, pontos))
+  text:set(string.format(constantes.totalPontos, usuario, pontos))
   love.graphics.setColor(0, 0, 0)
   love.graphics.draw(text, 0, 0)
 end
