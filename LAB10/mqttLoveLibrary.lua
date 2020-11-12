@@ -30,6 +30,11 @@ function MQTT.start(host, id, listchannel, callbackFunction)
   print("connecting to " .. listchannel)
 end
 
+function MQTT.changeChannel(channelName)
+	print("Switching to " .. channelName)
+	mqttClient:subscribe({channelName})
+end
+
 --[[
 	function to send a message
 	message: message to be sent

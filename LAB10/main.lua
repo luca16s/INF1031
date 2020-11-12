@@ -1,4 +1,4 @@
-local mqtt = require "mqttLoveLibrary"
+local mqttLove = require "mqttLoveLibrary"
 local decodificador = require "decodificador"
 local constantes = require "constantes"
 local usuario = 'luca16s'
@@ -17,13 +17,14 @@ local cores = {{0.4,1,0.4},
                {0.8, 0.2, 0.2},
                {0,0.2,0.4}}
 
-local function mensagemRecebida(mensagem)
+local function trataMensagemRecebida(mensagem)
+  love.window.showMessageBox("Teste", mensagem)
   local x, y = decodificador.decodificaCoordenadas(mensagem)
 
   if string.match(mensagem, "<SEL>") == "<SEL>" then
     for i = #bolas, 1, -1 do
       if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
-        mqtt.sendMessage(string.format("<%f>", pontos + R / bolas[i].r))
+        mqttLove.sendMessage(string.format("<%f>", pontos + R / bolas[i].r), constantes.canalPontuacao)
         table.remove(bolas, i)
         break
       end
@@ -44,11 +45,11 @@ function love.load()
   love.graphics.setBackgroundColor(1, 1, 1)
   local font = love.graphics.newFont(constantes.fonte, 24)
   text = love.graphics.newText(font, "")
-  mqtt.start(constantes.host, usuario, constantes.canal,  mensagemRecebida)
+  mqttLove.start(constantes.host, usuario, constantes.canalLobby,  trataMensagemRecebida)
 end
 
 function love.update(dt)
-  mqtt.checkMessages()
+  mqttLove.checkMessages()
 end
 
 function love.draw()
@@ -62,7 +63,8 @@ function love.draw()
   love.graphics.draw(text, 0, 0)
 end
 
-function love.mousepressed (x, y, bt)
-  mqtt.sendMessage(string.format(constantes.mensagem, x, y, usuario), constantes.canal)
+function love.mousepressed (x, y)
+  mqttLove.changeChannel(constantes.canalJogo)
+  mqttLove.sendMessage(string.format(constantes.mensagem, x, y, usuario), constantes.canalJogo)
 end
 
