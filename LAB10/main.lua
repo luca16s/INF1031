@@ -75,6 +75,6 @@ function love.draw ()
 end
 
 function love.mousepressed (x, y, bt)
-  mqtt.sendMessage('<SEL><' .. x .. '><' .. y .. '><' .. usuario .. '>', canal)
+  mqtt.sendMessage(string.format('<SEL><%i><%i><%s>', x, y, usuario), canal)
 end
 
