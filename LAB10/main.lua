@@ -44,8 +44,6 @@ end
 
 local function contabilizaPontos(mensagem)
   local jogador, pontos = Decodificador.decodificarPontuacao(mensagem)
-  love.window.showMessageBox('', jogador)
-  love.window.showMessageBox('', pontos)
   pontuacao[jogador] = pontos + (pontuacao[jogador] or 0)
 end
 
