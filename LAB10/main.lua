@@ -23,7 +23,7 @@ local function inicializaDadosJogador(mensagem)
     if jogador ~= idJogador then
       pontuacao[jogador] = 0
       math.randomseed(os.time())
-      mqttLove.sendMessage(string.format('%s<%f>', Constantes.Semente, 0.0012512588885159), Constantes.canalLobby);
+      mqttLove.sendMessage(string.format('%s<%f>', Constantes.Semente, math.random()), Constantes.canalLobby);
     end
 end
 
@@ -31,7 +31,6 @@ local function removeDiscos(mensagem)
   local x, y = decodificador.decodificarCoordenadas(mensagem)
   for i = #bolas, 1, -1 do
     if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
-      mqttLove.changeChannel(constantes.canalPontuacao)
       mqttLove.sendMessage(string.format("%s<%s><%f>", Constantes.Pontuacao, idJogador, (pontuacao[idJogador] + R / bolas[i].r)), constantes.canalPontuacao)
       if bolas[i] ~= nil then
         table.remove(bolas, i)
@@ -57,7 +56,7 @@ local function trataMensagemRecebida(mensagem)
     removeDiscos(mensagemTratada)
   elseif palavraChaveMensagem == Constantes.Pontuacao then
     local jogador, pontos = contabilizaPontos(mensagemTratada)
-    pontuacao[jogador] = pontos + pontuacao[jogador]
+    pontuacao[jogador] = pontos + (pontuacao[jogador] or 0)
   end
 end
 
@@ -91,7 +90,7 @@ function love.draw()
     love.graphics.setColor(bolas[i].cor[1], bolas[i].cor[2], bolas[i].cor[3])
     love.graphics.circle("fill", bolas[i].x, bolas[i].y, bolas[i].r)
   end
-
+    
   local h = 0
   for chave, valor in pairs(pontuacao) do
     text:set(string.format(constantes.totalPontos, chave, valor))
@@ -102,7 +101,6 @@ function love.draw()
 end
 
 function love.mousepressed (x, y)
-  mqttLove.changeChannel(constantes.canalJogo)
   mqttLove.sendMessage(string.format(constantes.mensagem, x, y, idJogador), constantes.canalJogo)
 end
 
