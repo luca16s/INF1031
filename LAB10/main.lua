@@ -73,7 +73,7 @@ function love.update(dt)
   mqttLove.checkMessages()
   local w, h = love.graphics.getDimensions()
 
-  if semente ~= nil then
+  if semente ~= nil and #bolas == 0 then
     math.randomseed(semente)
     for i = 1, N do
       local r = math.random(R/10, R)
