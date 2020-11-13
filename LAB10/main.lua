@@ -32,6 +32,7 @@ local function removeDiscos(mensagem)
   for i = #bolas, 1, -1 do
     if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
       if jogador == idJogador then
+        mqttLove.changeChannel(constantes.canalPontuacao)
         mqttLove.sendMessage(string.format("%s<%s><%f>", Constantes.Pontuacao, idJogador, (pontuacao[idJogador] + R / bolas[i].r)), constantes.canalPontuacao)
       end
       table.remove(bolas, i)
@@ -43,6 +44,7 @@ end
 local function contabilizaPontos(mensagem)
   local jogador, pontos = Decodificador.decodificarPontuacao(mensagem)
   pontuacao[jogador] = pontos + (pontuacao[jogador] or 0)
+  mqttLove.changeChannel(constantes.canalJogo)
 end
 
 local function trataMensagemRecebida(mensagem)
@@ -82,6 +84,7 @@ function love.update(dt)
       local cor = cores[math.random(1, #cores)]
       table.insert(bolas, {r = r, x = x, y = y, cor = cor})
     end
+    mqttLove.changeChannel(constantes.canalJogo)
   end
 end
 
