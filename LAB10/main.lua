@@ -9,6 +9,7 @@ local bolas = {}
 local pontuacao = {}
 local N = 100
 local R = 50
+local audioClick
 local semente = nil
 local cores = {{0.4,1,0.4},
                {1,0.7,0.4},
@@ -35,6 +36,7 @@ local function removeDiscos(mensagem)
         mqttLove.changeChannel(constantes.canalPontuacao)
         mqttLove.sendMessage(string.format("%s<%s><%f>", Constantes.Pontuacao, idJogador, (pontuacao[idJogador] + R / bolas[i].r)), constantes.canalPontuacao)
       end
+      audioClick:stop() audioClick:play()
       table.remove(bolas, i)
       break
     end
@@ -63,6 +65,7 @@ local function trataMensagemRecebida(mensagem)
 end
 
 function love.load()
+  audioClick = love.audio.newSource("WoodWhack.wav","static")
   love.graphics.setBackgroundColor(1, 1, 1)
   local font = love.graphics.newFont(constantes.fonte, 24)
   text = love.graphics.newText(font, "")
