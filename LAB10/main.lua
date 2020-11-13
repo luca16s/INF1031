@@ -28,10 +28,12 @@ local function inicializaDadosJogador(mensagem)
 end
 
 local function removeDiscos(mensagem)
-  local x, y = decodificador.decodificarCoordenadas(mensagem)
+  local x, y, jogador = decodificador.decodificarCoordenadas(mensagem)
   for i = #bolas, 1, -1 do
     if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
-      mqttLove.sendMessage(string.format("%s<%s><%f>", Constantes.Pontuacao, idJogador, (pontuacao[idJogador] + R / bolas[i].r)), constantes.canalPontuacao)
+      if jogador == idJogador then
+        mqttLove.sendMessage(string.format("%s<%s><%f>", Constantes.Pontuacao, idJogador, (pontuacao[idJogador] + R / bolas[i].r)), constantes.canalPontuacao)
+      end
       if bolas[i] ~= nil then
         table.remove(bolas, i)
       end
@@ -41,7 +43,10 @@ local function removeDiscos(mensagem)
 end
 
 local function contabilizaPontos(mensagem)
-  return Decodificador.decodificarPontuacao(mensagem)
+  local jogador, pontos = Decodificador.decodificarPontuacao(mensagem)
+  love.window.showMessageBox('', jogador)
+  love.window.showMessageBox('', pontos)
+  pontuacao[jogador] = pontos + (pontuacao[jogador] or 0)
 end
 
 local function trataMensagemRecebida(mensagem)
@@ -55,8 +60,7 @@ local function trataMensagemRecebida(mensagem)
   elseif palavraChaveMensagem == Constantes.SelecaoDiscos then
     removeDiscos(mensagemTratada)
   elseif palavraChaveMensagem == Constantes.Pontuacao then
-    local jogador, pontos = contabilizaPontos(mensagemTratada)
-    pontuacao[jogador] = pontos + (pontuacao[jogador] or 0)
+    contabilizaPontos(mensagemTratada)
   end
 end
 

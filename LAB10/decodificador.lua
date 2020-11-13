@@ -6,12 +6,14 @@ end
 
 function Decodificador.decodificarCoordenadas(mensagemRecebida)
     local coordenadaDecodificada = {}
+    love.window.showMessageBox('', mensagemRecebida)
     local contador = 0
     string.gsub(mensagemRecebida,"<%d+>", function(coordenada)
         coordenadaDecodificada[contador] = string.gsub(coordenada, "%p+", "")
         contador = contador + 1
     end)
-  return coordenadaDecodificada[0], coordenadaDecodificada[1]
+    love.window.showMessageBox('', string.match(mensagemRecebida, '%w[%w.-+]*'))
+  return coordenadaDecodificada[0], coordenadaDecodificada[1], string.match(mensagemRecebida, '%a+[%a-%d+]*')
 end
 
 function Decodificador.dadosJogador(mensagemRecebida)
