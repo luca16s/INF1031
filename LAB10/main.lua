@@ -19,33 +19,30 @@ local cores = {{0.4,1,0.4},
 
 local function removeDiscos(mensagem)
   local x, y = decodificador.decodificarCoordenadas(mensagem)
-  if string.match(mensagem, "<SEL>") == "<SEL>" then
-    for i = #bolas, 1, -1 do
-      if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
-        mqttLove.changeChannel(constantes.canalPontuacao)
-        mqttLove.sendMessage(string.format("<PONTO><%s><%f>", usuario, (pontos + R / bolas[i].r)), constantes.canalPontuacao)
-        table.remove(bolas, i)
-        break
-      end
+  for i = #bolas, 1, -1 do
+    if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
+      mqttLove.changeChannel(constantes.canalPontuacao)
+      mqttLove.sendMessage(string.format("<PONTO><%s><%f>", usuario, (pontos + R / bolas[i].r)), constantes.canalPontuacao)
+      table.remove(bolas, i)
+      break
     end
   end
 end
 
 local function contabilizaPontos(mensagem)
-  love.window.showMessageBox("Teste", mensagem)
   local jogador, pontuacao = Decodificador.decodificarPontuacao(mensagem)
-  love.window.showMessageBox("Teste", jogador)
-  love.window.showMessageBox("Teste", pontuacao)
   return pontuacao
 end
 
 local function trataMensagemRecebida(mensagem)
-  if decodificador.buscaPalavraChaveMensagem(mensagem) == '<SEL>' then
-    removeDiscos(mensagem)
-  elseif decodificador.buscaPalavraChaveMensagem(mensagem) == '<NOVOJOG>' then
+  local palavraChaveMensagem = decodificador.buscaPalavraChaveMensagem(mensagem)
+  local mensagemTratada = string.sub(mensagem, string.len(palavraChaveMensagem) + 1)
 
-  elseif decodificador.buscaPalavraChaveMensagem(mensagem) == '<PONTO>' then
-    pontos = contabilizaPontos(string.sub(mensagem, string.len('<PONTO>') + 1))
+  if palavraChaveMensagem == Constantes.NovoJogador then
+  elseif palavraChaveMensagem == Constantes.SelecaoDiscos then
+    removeDiscos(mensagemTratada)
+  elseif palavraChaveMensagem == Constantes.Pontuacao then
+    pontos = contabilizaPontos(mensagemTratada)
   end
 end
 
