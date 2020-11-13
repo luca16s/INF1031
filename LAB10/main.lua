@@ -1,8 +1,9 @@
 local mqttLove = require "mqttLoveLibrary"
 local decodificador = require "decodificador"
 local constantes = require "constantes"
-local usuario = 'luca16s'
 local text = ''
+math.randomseed(os.time())
+local usuario = string.format("JOG-%d", math.random(0, 100))
 
 local bolas = {}
 local pontuacao = {}
@@ -41,7 +42,12 @@ local function trataMensagemRecebida(mensagem)
   elseif palavraChaveMensagem == Constantes.SelecaoDiscos then
     removeDiscos(mensagemTratada)
   elseif palavraChaveMensagem == Constantes.Pontuacao then
+    love.window.showMessageBox("", mensagem)
+    love.window.showMessageBox("", palavraChaveMensagem)
+    love.window.showMessageBox("", mensagemTratada)
     local jogador, pontos = contabilizaPontos(mensagemTratada)
+    love.window.showMessageBox("", jogador)
+    love.window.showMessageBox("", pontos)
     pontuacao[jogador] = pontos + pontuacao[jogador]
   end
 end

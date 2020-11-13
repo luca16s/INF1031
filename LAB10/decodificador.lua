@@ -15,7 +15,7 @@ function Decodificador.decodificarCoordenadas(mensagemRecebida)
 end
 
 function Decodificador.decodificarPontuacao(mensagemRecebida)
-  local jogador =  string.match(mensagemRecebida, '%w[%w.,]*')
+  local jogador =  string.match(mensagemRecebida, '%w[%w.-]*')
   local pontuacao = string.sub(string.match(mensagemRecebida, '<%d[%d.,]*>'), 2, -2)
   return jogador, pontuacao
 end
