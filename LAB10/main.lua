@@ -21,6 +21,7 @@ local cores = {{0.4,1,0.4},
 local function inicializaDadosJogador(mensagem)
     local jogador = Decodificador.dadosJogador(mensagem)
     if jogador ~= idJogador then
+      pontuacao[jogador] = 0
       math.randomseed(os.time())
       mqttLove.sendMessage(string.format('%s<%f>', Constantes.Semente, 0.0012512588885159), Constantes.canalLobby);
     end
@@ -71,7 +72,6 @@ end
 
 function love.update(dt)
   mqttLove.checkMessages()
-  
   local w, h = love.graphics.getDimensions()
 
   if semente ~= nil then
@@ -92,10 +92,12 @@ function love.draw()
     love.graphics.circle("fill", bolas[i].x, bolas[i].y, bolas[i].r)
   end
 
+  local h = 0
   for chave, valor in pairs(pontuacao) do
     text:set(string.format(constantes.totalPontos, chave, valor))
     love.graphics.setColor(0, 0, 0)
-    love.graphics.draw(text, 0, 0)
+    love.graphics.draw(text, 0, h)
+    h = text:getHeight()
   end
 end
 
