@@ -42,12 +42,7 @@ local function trataMensagemRecebida(mensagem)
   elseif palavraChaveMensagem == Constantes.SelecaoDiscos then
     removeDiscos(mensagemTratada)
   elseif palavraChaveMensagem == Constantes.Pontuacao then
-    love.window.showMessageBox("", mensagem)
-    love.window.showMessageBox("", palavraChaveMensagem)
-    love.window.showMessageBox("", mensagemTratada)
     local jogador, pontos = contabilizaPontos(mensagemTratada)
-    love.window.showMessageBox("", jogador)
-    love.window.showMessageBox("", pontos)
     pontuacao[jogador] = pontos + pontuacao[jogador]
   end
 end
