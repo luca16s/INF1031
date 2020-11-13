@@ -14,6 +14,14 @@ function Decodificador.decodificarCoordenadas(mensagemRecebida)
   return coordenadaDecodificada[0], coordenadaDecodificada[1]
 end
 
+function Decodificador.dadosJogador(mensagemRecebida)
+  return string.match(mensagemRecebida, '%w[%w.-]*')
+end
+
+function Decodificador.semente(mensagemRecebida)
+  return string.sub(string.match(mensagemRecebida, '<%w[%w.]*>'), 2, -2)
+end
+
 function Decodificador.decodificarPontuacao(mensagemRecebida)
   local jogador =  string.match(mensagemRecebida, '%w[%w.-]*')
   local pontuacao = string.sub(string.match(mensagemRecebida, '<%d[%d.,]*>'), 2, -2)
