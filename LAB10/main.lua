@@ -5,7 +5,7 @@ local usuario = 'luca16s'
 local text = ''
 
 local bolas = {}
-local pontos = 0
+local pontuacao = {}
 local N = 100
 local R = 50
 local S = 0
@@ -22,7 +22,7 @@ local function removeDiscos(mensagem)
   for i = #bolas, 1, -1 do
     if math.sqrt((x-bolas[i].x)^2 + (y-bolas[i].y)^2) < bolas[i].r then
       mqttLove.changeChannel(constantes.canalPontuacao)
-      mqttLove.sendMessage(string.format("<PONTO><%s><%f>", usuario, (pontos + R / bolas[i].r)), constantes.canalPontuacao)
+      mqttLove.sendMessage(string.format("<PONTO><%s><%f>", usuario, (pontuacao[usuario] + R / bolas[i].r)), constantes.canalPontuacao)
       table.remove(bolas, i)
       break
     end
@@ -30,8 +30,7 @@ local function removeDiscos(mensagem)
 end
 
 local function contabilizaPontos(mensagem)
-  local jogador, pontuacao = Decodificador.decodificarPontuacao(mensagem)
-  return pontuacao
+  return Decodificador.decodificarPontuacao(mensagem)
 end
 
 local function trataMensagemRecebida(mensagem)
@@ -42,7 +41,8 @@ local function trataMensagemRecebida(mensagem)
   elseif palavraChaveMensagem == Constantes.SelecaoDiscos then
     removeDiscos(mensagemTratada)
   elseif palavraChaveMensagem == Constantes.Pontuacao then
-    pontos = contabilizaPontos(mensagemTratada)
+    local jogador, pontos = contabilizaPontos(mensagemTratada)
+    pontuacao[jogador] = pontos + pontuacao[jogador]
   end
 end
 
@@ -59,6 +59,7 @@ function love.load()
   love.graphics.setBackgroundColor(1, 1, 1)
   local font = love.graphics.newFont(constantes.fonte, 24)
   text = love.graphics.newText(font, "")
+  pontuacao[usuario] = 0
   mqttLove.start(constantes.host, usuario, constantes.canalLobby,  trataMensagemRecebida)
 end
 
@@ -72,9 +73,11 @@ function love.draw()
     love.graphics.circle("fill", bolas[i].x, bolas[i].y, bolas[i].r)
   end
 
-  text:set(string.format(constantes.totalPontos, usuario, pontos))
-  love.graphics.setColor(0, 0, 0)
-  love.graphics.draw(text, 0, 0)
+  for chave, valor in pairs(pontuacao) do
+    text:set(string.format(constantes.totalPontos, chave, valor))
+    love.graphics.setColor(0, 0, 0)
+    love.graphics.draw(text, 0, 0)
+  end
 end
 
 function love.mousepressed (x, y)
