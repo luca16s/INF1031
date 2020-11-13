@@ -34,9 +34,7 @@ local function removeDiscos(mensagem)
       if jogador == idJogador then
         mqttLove.sendMessage(string.format("%s<%s><%f>", Constantes.Pontuacao, idJogador, (pontuacao[idJogador] + R / bolas[i].r)), constantes.canalPontuacao)
       end
-      if bolas[i] ~= nil then
-        table.remove(bolas, i)
-      end
+      table.remove(bolas, i)
       break
     end
   end
@@ -96,8 +94,13 @@ function love.draw()
   local h = 0
   for chave, valor in pairs(pontuacao) do
     text:set(string.format(constantes.totalPontos, chave, valor))
-    love.graphics.setColor(0, 0, 0)
-    love.graphics.draw(text, 0, h)
+    if chave == idJogador then
+      love.graphics.setColor(255.0, 0, 0)
+      love.graphics.draw(text, 0, h)
+    else
+      love.graphics.setColor(0, 0, 0)
+      love.graphics.draw(text, 0, h)
+    end
     h = text:getHeight()
   end
 end
