@@ -106,6 +106,6 @@ function love.draw()
 end
 
 function love.mousepressed (x, y)
-  mqttLove.sendMessage(string.format(constantes.mensagem, x, y, idJogador), constantes.canalJogo)
+  mqttLove.sendMessage(string.format('%s<%i><%i><%s>', Constantes.SelecaoDiscos, x, y, idJogador), constantes.canalJogo)
 end
 

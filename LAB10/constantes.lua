@@ -1,6 +1,5 @@
 Constantes = {}
 
-Constantes.mensagem = '<SEL><%i><%i><%s>'
 Constantes.fonte = 'game.ttf'
 Constantes.totalPontos = 'Pontos %s: %.1f'
 Constantes.canalLobby = 'ESTOURA_DISCOS_JOGO'
