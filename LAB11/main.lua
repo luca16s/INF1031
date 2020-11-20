@@ -29,7 +29,7 @@ local function desenhaLinha(movimento)
 end
 
 local function movimentaMiraQuadrado(direcao, distancia)
-  return direcao*(distancia*10)
+  return direcao*(distancia*20)
 end
 
 local function trataMensagemRecebida(mensagem)
@@ -67,6 +67,8 @@ end
 
 function love.draw()
   love.graphics.polygon('fill', movimentoMira-10, alt-10, movimentoMira+10, alt-10, movimentoMira, alt-30)
-  desenhaLinha(movimentoMira)
+  if acaoJogador == Constantes.ComandoAtirar then
+    desenhaLinha(movimentoMira)
+  end
   desenhaBolhas()
 end
