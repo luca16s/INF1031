@@ -24,8 +24,8 @@ local function desenhaBolhas()
   end
 end
 
-local function desenhaLinha()
-  love.graphics.line(larg/2, alt-30, larg/2, alt/4)
+local function desenhaLinha(movimento)
+  love.graphics.line(movimento, alt-30, movimento, alt/4)
 end
 
 local function movimentaMiraQuadrado(direcao, distancia)
@@ -33,9 +33,7 @@ local function movimentaMiraQuadrado(direcao, distancia)
 end
 
 local function trataMensagemRecebida(mensagem)
-      love.window.showMessageBox('', '', 'error')
     if mensagem == Constantes.ComandoMoveDireita then
-      love.window.showMessageBox('', '', 'error')
       acaoJogador = Constantes.ComandoMoveDireita
     elseif mensagem == Constantes.ComandoMoveEsquerda then
       acaoJogador = Constantes.ComandoMoveEsquerda
@@ -48,7 +46,7 @@ local function trataMensagemRecebida(mensagem)
     end
   end
 
-function love.load ()
+function love.load()
   larg, alt = love.graphics.getDimensions()
   geraBolhas(larg, alt)
   love.graphics.setBackgroundColor(1,1,1)
@@ -59,7 +57,7 @@ end
 
 function love.update(dt)
   mqttLove.checkMessages()
-  
+
   if acaoJogador == Constantes.ComandoMoveDireita then
     movimentoMira = movimentoMira + movimentaMiraQuadrado(1, dt)
   elseif  acaoJogador == Constantes.ComandoMoveEsquerda then
@@ -67,8 +65,8 @@ function love.update(dt)
   end
 end
 
-function love.draw ()
-  desenhaLinha()
+function love.draw()
+  love.graphics.polygon('fill', larg/2-10, alt-10, larg/2+10, alt-10, larg/2, alt-30)
+  desenhaLinha(movimentoMira)
   desenhaBolhas()
-  love.graphics.rectangle("fill", movimentoMira, alt-30, 20, 20)
 end
