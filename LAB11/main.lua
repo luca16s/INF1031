@@ -66,7 +66,7 @@ function love.update(dt)
 end
 
 function love.draw()
-  love.graphics.polygon('fill', larg/2-10, alt-10, larg/2+10, alt-10, larg/2, alt-30)
+  love.graphics.polygon('fill', movimentoMira-10, alt-10, movimentoMira+10, alt-10, movimentoMira, alt-30)
   desenhaLinha(movimentoMira)
   desenhaBolhas()
 end
