@@ -1,5 +1,5 @@
 Constantes = {}
-Constantes.host = 'test.mosquitto.org'
+Constantes.host = 'localhost'
 Constantes.canalJogo = 'JOGO_ESTOURA_BOLHAS'
 Constantes.ComandoMoveDireita = 'move-dir'
 Constantes.ComandoMoveEsquerda = 'move-esq'

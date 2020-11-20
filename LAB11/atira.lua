@@ -8,7 +8,7 @@ local botaoDireitoMillis = 0
 local botaoEsquerdoMillis = 0
 
 local function mandaMensagemAtirar()
-  if botaoEsquerdoMillis - botaoDireitoMillis < 300000 and botaoEsquerdoMillis - botaoDireitoMillis >= 0 then
+  if botaoEsquerdoMillis - botaoDireitoMillis < 500000 and botaoEsquerdoMillis - botaoDireitoMillis >= 0 then
     msgr.sendMessage('atira', 'JOGO_ESTOURA_BOLHAS')
   end
 end
@@ -46,4 +46,4 @@ gpio.mode(swEsquerdo, gpio.INPUT, gpio.PULLUP)
 gpio.trig(swDireito, 'both', mandaMensagemDireita)
 gpio.trig(swEsquerdo, 'both', mandaMensagemEsquerda)
 
-msgr.start('test.mosquitto.org', matricula, 'JOGO_ESTOURA_BOLHAS', mensagemRecebida)
+msgr.start('192.168.1.2', matricula, 'JOGO_ESTOURA_BOLHAS', mensagemRecebida)
