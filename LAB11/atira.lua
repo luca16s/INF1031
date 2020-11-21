@@ -8,7 +8,7 @@ local botaoDireitoMillis = 0
 local botaoEsquerdoMillis = 0
 
 local function mandaMensagemAtirar()
-  if botaoEsquerdoMillis - botaoDireitoMillis < 500000 and botaoEsquerdoMillis - botaoDireitoMillis >= 0 then
+  if botaoEsquerdoMillis - botaoDireitoMillis < 1000000 and botaoEsquerdoMillis - botaoDireitoMillis >= 0 then
     msgr.sendMessage('atira', 'JOGO_ESTOURA_BOLHAS')
   end
 end

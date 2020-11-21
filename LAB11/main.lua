@@ -1,5 +1,4 @@
 local mqttLove = require "mqttLoveLibrary"
-local decodificador = require "decodificador"
 local constantes = require "constantes"
 local movimentoMira = 0
 local acaoJogador = ''
@@ -32,13 +31,20 @@ local function movimentaMira(direcao, distancia)
   return direcao*(distancia*20)
 end
 
-local function removeBolha()
-  local x, y = 1, 2
+local function removeBolha(posicaoX)
+  local maiorBolha = 0
+  local bolhaAEstourar = nil
   for i = #bolhas, 1, -1 do
-    if math.sqrt((x-bolhas[i].x)^2 + (y-bolhas[i].y)^2) < bolhas[i].r then
-      table.remove(bolhas, i)
-      break
+    if posicaoX >= bolhas[i].x - bolhas[i].r and posicaoX <= bolhas[i].x + bolhas[i].r then
+      local yContato = bolhas[i].y + math.sqrt(bolhas[i].r^2 - (posicaoX - bolhas[i].x)^2)
+      if maiorBolha < yContato then
+        bolhaAEstourar = i
+      end
     end
+  end
+
+  if bolhaAEstourar ~= nil then
+    table.remove(bolhas, bolhaAEstourar)
   end
 end
 
@@ -79,6 +85,8 @@ function love.draw()
   love.graphics.polygon('fill', movimentoMira-10, alt-10, movimentoMira+10, alt-10, movimentoMira, alt-30)
   if acaoJogador == Constantes.ComandoAtirar then
     desenhaLinha(movimentoMira)
+    removeBolha(movimentoMira)
+    acaoJogador = false
   end
   desenhaBolhas()
 end
