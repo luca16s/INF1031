@@ -46,4 +46,4 @@ gpio.mode(swEsquerdo, gpio.INPUT, gpio.PULLUP)
 gpio.trig(swDireito, 'both', mandaMensagemDireita)
 gpio.trig(swEsquerdo, 'both', mandaMensagemEsquerda)
 
-msgr.start('192.168.1.2', matricula, 'JOGO_ESTOURA_BOLHAS', mensagemRecebida)
+msgr.start('test.mosquitto.org', matricula, 'JOGO_ESTOURA_BOLHAS', mensagemRecebida)

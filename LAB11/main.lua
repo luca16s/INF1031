@@ -39,6 +39,7 @@ local function removeBolha(posicaoX)
       local yContato = bolhas[i].y + math.sqrt(bolhas[i].r^2 - (posicaoX - bolhas[i].x)^2)
       if maiorBolha < yContato then
         bolhaAEstourar = i
+        maiorBolha = yContato
       end
     end
   end
