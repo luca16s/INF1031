@@ -1,3 +1,3 @@
-2) Aparece uma torre formada por 5 discos de tamanhos diferentes, 
-com o de cima sempre menor que o de baixo.
-3)Ao executar a torre com os discos aparecem no lado direito da tela.
+2) Aparece uma torre formada por 5 discos de tamanhos diferentes, com o de cima sempre menor que o de baixo.
+3) Ao executar a torre com os discos aparecem no lado direito da tela.
+4) Com o sleep o movimento dos discos passa a ser perceptivel. 
