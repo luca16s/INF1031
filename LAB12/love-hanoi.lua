@@ -17,20 +17,23 @@ function desenha()
   end
 end
 
-local function move (origem, destino)
-  -- completar
-  -- tirar da tabela torres[origem] e colocar na tabela torres[destino]
+local function move(origem, destino)
+  for i = numdiscos, 1, -1 do
+    table.insert(torres[destino], torres[origem][i])
+    table.remove(torres[origem], i)
+  end
 end
 
-local function hanoi (origem, destino, auxiliar, quantos)
+local function hanoi(origem, destino, auxiliar, quantos)
   if quantos <= 1 then
     print (string.format("mova de %d para %d", origem, destino))
-    move (origem, destino)
-    -- inicialmente deixe comentado (questão 3) e depois descomente!
-    -- sleep(1)
+    move(origem, destino)
+    -- inicialmente deixe comentado (questÃ£o 3) e depois descomente!
+    --sleep(1)
   else -- completar
-    hanoi(origem, destino, auxiliar, quantos-1)
-    hanoi(origem, auxiliar, destino, 1)
+    -- usar 3 chamadas recursivas!!!
+    hanoi(origem, auxiliar, destino, quantos-1)
+    hanoi(origem, destino, auxiliar, 1)
     hanoi(auxiliar, destino, origem, quantos-1)
   end
 end
@@ -49,7 +52,7 @@ function main ()
   local destino = 3
   local auxiliar = 2
   criapilha(origem, numdiscos)
-  sleep(1)
+  --sleep(1)
   hanoi(origem, destino, auxiliar, numdiscos)
 end
 
