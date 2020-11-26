@@ -1,8 +1,9 @@
 local torres = { {}, {}, {} }
+local corTorres = {}
 local numdiscos = 3
 
 function desenha()
--- melhorar o desenho dos discos!
+-- melhorar o desenho dos discos!  
   local larg, alt = love.graphics.getDimensions()
   local x, y
   love.graphics.setLineWidth(3)
@@ -12,9 +13,9 @@ function desenha()
     x = i*larg/5 + larg/10
     y = alt
     for j = 1, #torres[i] do
-      love.graphics.setColor(1, 1, 1)
+      love.graphics.setColor(corTorres[contagemCirculos])
       love.graphics.rectangle("line", x - torres[i][j]/2, y - alt/15, torres[i][j], alt/15)
-      love.graphics.draw(love.graphics.newText(fonte, contagemCirculos), x - torres[i][j]/2, y - alt/15)
+      love.graphics.draw(love.graphics.newText(fonte, contagemCirculos), x, y - alt/15)
       y = y - alt/15
       contagemCirculos = contagemCirculos + 1
     end
@@ -54,6 +55,12 @@ function main ()
   local destino = 3
   local auxiliar = 2
   criapilha(origem, numdiscos)
+  
+  math.randomseed(os.time())
+  for i = 1, numdiscos do
+    corTorres[i] = { 0.9*math.random(), 0.9*math.random(), 0.9*math.random()}
+  end
+  
   --sleep(1)
   hanoi(origem, destino, auxiliar, numdiscos)
 end
