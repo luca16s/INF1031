@@ -1,5 +1,4 @@
 local torres = { {}, {}, {} }
-local corTorres = {}
 local numdiscos = 3
 
 function desenha()
@@ -13,8 +12,8 @@ function desenha()
     x = i*larg/5 + larg/10
     y = alt
     for j = 1, #torres[i] do
-      love.graphics.setColor(corTorres[contagemCirculos])
-      love.graphics.rectangle("line", x - torres[i][j]/2, y - alt/15, torres[i][j], alt/15)
+      love.graphics.setColor(torres[i][j].cor)
+      love.graphics.rectangle("line", x - torres[i][j].comprimento/2, y - alt/15, torres[i][j].comprimento, alt/15)
       love.graphics.draw(love.graphics.newText(fonte, contagemCirculos), x, y - alt/15)
       y = y - alt/15
       contagemCirculos = contagemCirculos + 1
@@ -44,8 +43,9 @@ end
 local function criapilha(from, n)
   local larg, alt = love.graphics.getDimensions()
   local largumatorre = larg/5
+  math.randomseed(os.time())
   for i = 1, n do
-    torres[from][i] = largumatorre - 10*i
+    torres[from][i] = { comprimento = largumatorre - 10*i, cor = { 0.9*math.random(), 0.9*math.random(), 0.9*math.random()} }
   end
 end
 
@@ -55,12 +55,6 @@ function main ()
   local destino = 3
   local auxiliar = 2
   criapilha(origem, numdiscos)
-  
-  math.randomseed(os.time())
-  for i = 1, numdiscos do
-    corTorres[i] = { 0.9*math.random(), 0.9*math.random(), 0.9*math.random()}
-  end
-  
   --sleep(1)
   hanoi(origem, destino, auxiliar, numdiscos)
 end
