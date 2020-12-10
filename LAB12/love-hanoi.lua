@@ -1,5 +1,5 @@
 local torres = { {}, {}, {} }
-local numdiscos = 5
+local numdiscos = 3
 
 function desenha()
 -- melhorar o desenho dos discos!  
