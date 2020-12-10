@@ -18,7 +18,7 @@ function Decodificador.dadosJogador(mensagemRecebida)
   return string.match(mensagemRecebida, '%w[%w.-]*')
 end
 
-function Decodificador.semente(mensagemRecebida)
+function Decodificador.velocidadePlayer(mensagemRecebida)
   return string.sub(string.match(mensagemRecebida, '<%w[%w.]*>'), 2, -2)
 end
 

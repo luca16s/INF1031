@@ -1,5 +1,5 @@
 local torres = { {}, {}, {} }
-local numdiscos = 3
+local numdiscos = 5
 
 function desenha()
 -- melhorar o desenho dos discos!  
@@ -22,8 +22,8 @@ function desenha()
 end
 
 local function move(origem, destino)
-    table.insert(torres[destino], 1, torres[origem][1])
-    table.remove(torres[origem], 1)
+  table.insert(torres[destino], torres[origem][#torres[origem]])
+  table.remove(torres[origem], #torres[origem])
 end
 
 local function hanoi(origem, destino, auxiliar, quantos)

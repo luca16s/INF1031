@@ -1,3 +1,4 @@
 2) Aparece uma torre formada por 5 discos de tamanhos diferentes, com o de cima sempre menor que o de baixo.
 3) Ao executar a torre com os discos aparecem no lado direito da tela.
-4) Com o sleep o movimento dos discos passa a ser perceptivel. 
+4) Com o sleep o movimento dos discos passa a ser perceptivel.
+Porém acabei ficando na dúvida se fiz algo errado, pois aparentemente estou sempre inserindo o disco na parte de baixo.
